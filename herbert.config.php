@@ -1,6 +1,5 @@
 <?php
 
-
 return [
 
     /**
@@ -12,70 +11,63 @@ return [
      * Auto-load all required files.
      */
     'requires' => [
-        __DIR__ . '/app/customPostTypes.php'
+        __DIR__ . '/app/hooks.php',
     ],
-    
-    /**
-     * The tables to manage.
-     */
-    'tables' => [
-    ],
-
 
     /**
      * Activate
      */
     'activators' => [
-        __DIR__ . '/app/activate.php'
+        // __DIR__ . '/app/activate.php'
     ],
 
     /**
-     * Deactivate
+     * Activate
      */
     'deactivators' => [
-        __DIR__ . '/app/deactivate.php'
+        // __DIR__ . '/app/deactivate.php'
     ],
 
     /**
      * The shortcodes to auto-load.
      */
     'shortcodes' => [
-        __DIR__ . '/app/shortcodes.php'
+        // __DIR__ . '/app/shortcodes.php'
     ],
 
     /**
      * The widgets to auto-load.
      */
     'widgets' => [
-        __DIR__ . '/app/widgets.php'
+        // __DIR__ . '/app/widgets.php'
     ],
 
     /**
-     * The styles and scripts to auto-load.
+     * The widgets to auto-load.
      */
     'enqueue' => [
-        __DIR__ . '/app/enqueue.php'
+        // __DIR__ . '/app/enqueue.php'
     ],
 
     /**
      * The routes to auto-load.
      */
     'routes' => [
-        'MyPlugin' => __DIR__ . '/app/routes.php'
+        // 'AgreableAdvertPlugin' => __DIR__ . '/app/routes.php'
     ],
 
     /**
      * The panels to auto-load.
      */
     'panels' => [
-        'MyPlugin' => __DIR__ . '/app/panels.php'
+        // 'AgreableAdvertPlugin' => __DIR__ . '/app/panels.php'
     ],
 
     /**
      * The APIs to auto-load.
      */
     'apis' => [
-        'MyPlugin' => __DIR__ . '/app/api.php'
+        // 'AgreableAdvertPlugin' => __DIR__ . '/app/api.php'
     ],
 
     /**
@@ -86,7 +78,7 @@ return [
      * when rendering a view in twig.
      */
     'views' => [
-        'MyPlugin' => __DIR__ . '/resources/views'
+        // 'AgreableAdvertPlugin' => __DIR__ . '/resources/views'
     ],
 
     /**
@@ -99,6 +91,15 @@ return [
     /**
      * The asset path.
      */
-    'assets' => '/resources/assets/'
+    'assets' => '/resources/assets/',
 
+    /**
+     * Namespace used in ACF Panel definitions.
+     */
+    'agreable_namespace' => 'agreable_advert',
+
+    /**
+     *
+     */
+    'agreable_pluginTitle'      => 'Advert'
 ];

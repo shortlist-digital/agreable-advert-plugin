@@ -1,6 +1,7 @@
 {
-  "name": "getherbert/herbert-plugin",
-  "description": "Herbert plugin",
+  "name": "shortlist-digital/agreable-advert-plugin",
+  "type": "wordpress-plugin",
+  "description": "Wordpress plugin for Shortlist Media.",
   "license": "MIT",
   "require": {
     "getherbert/framework": "~0.9"
@@ -11,7 +12,7 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
-      "MyPlugin\\": "app/"
+      "AgreableAdvertPlugin\\": "app/"
     }
   }
 }
