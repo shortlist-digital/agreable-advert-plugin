@@ -46,7 +46,7 @@ return [
      * The widgets to auto-load.
      */
     'enqueue' => [
-        // __DIR__ . '/app/enqueue.php'
+        __DIR__ . '/app/enqueue.php'
     ],
 
     /**
@@ -78,7 +78,7 @@ return [
      * when rendering a view in twig.
      */
     'views' => [
-        // 'AgreableAdvertPlugin' => __DIR__ . '/resources/views'
+        'AgreableAdvertPlugin' => __DIR__ . '/resources/views'
     ],
 
     /**
