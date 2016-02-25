@@ -60,7 +60,7 @@ return [
      * The panels to auto-load.
      */
     'panels' => [
-        // 'AgreableAdvertPlugin' => __DIR__ . '/app/panels.php'
+        'AgreableAdvertPlugin' => __DIR__ . '/app/panels.php'
     ],
 
     /**

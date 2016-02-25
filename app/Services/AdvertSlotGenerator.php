@@ -33,8 +33,7 @@ class AdvertSlotGenerator {
 
   protected static function get_basic_ad_slot() {
     $ad = new stdClass();
-    $ad->accountId = "3488664";
-    $ad->tagPrefix = "ST";
+    $ad->account = get_field('advert_account_prefix', 'option');
     $ad->section = "";
     $ad->pageType = "";
     $ad->advertType = "";
@@ -44,6 +43,6 @@ class AdvertSlotGenerator {
   }
 
   protected static function generate_ad_tag($ad_slot) {
-    return "/" . $ad_slot->accountId . "/" . $ad_slot->tagPrefix . "_" . $ad_slot->section . "_" . $ad_slot->pageType . "_" . $ad_slot->advertType . "_" . $ad_slot->index;
+    return "/" . $ad_slot->account . "_" . $ad_slot->section . "_" . $ad_slot->pageType . "_" . $ad_slot->advertType . "_" . $ad_slot->index;
   }
 }

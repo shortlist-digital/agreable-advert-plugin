@@ -11,7 +11,6 @@ googletag.cmd = googletag.cmd || [];
   node.parentNode.insertBefore(gads, node);
 
   window.googletag.cmd.push(function() {
-    console.log('yolo');
     googletag.pubads().collapseEmptyDivs();
     googletag.pubads().enableAsyncRendering();
     googletag.enableServices();
