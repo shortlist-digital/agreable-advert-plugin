@@ -3,18 +3,20 @@
 use \stdClass;
 
 class AdvertSlotGenerator {
-  public static function get_vertical_advert($advert_widget, $rowWidgetIndex, $elementId) {
+  public static function get_vertical_advert($advert_widget, $category, $rowWidgetIndex, $elementId) {
     $ad_slot = self::get_basic_ad_slot();
-    $ad_slot->section = "Home";
-    $ad_slot->pageType = "Homepage";
+    $ad_slot->section = $category->slug;
+    $ad_slot->pageType = "Article";
     $ad_slot->advertType = "300x600";
     $ad_slot->index = 1;
-    $ad_slot->creativeSizes = [[300, 250]];
+    $ad_slot->creativeSizes = [[300, 600], [300, 250]];
     $ad_slot->tag = self::generate_ad_tag($ad_slot);
-    return $ad_slot;
+    return apply_filters('agreable_advert_slot_generator_filter', $ad_slot);
   }
 
   public static function get_header_advert($category, $pageType) {
+    // todo
+    exit;
     if (!$section) {
         $section = "home";
     }
