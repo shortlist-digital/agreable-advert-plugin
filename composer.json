@@ -1,7 +1,7 @@
 {
   "name": "shortlist-digital/agreable-advert-plugin",
   "type": "wordpress-plugin",
-  "description": "Wordpress plugin for Shortlist Media.",
+  "description": "A tres agreable Adverts plugin for Croissant compatible sites",
   "license": "MIT",
   "require": {
     "getherbert/framework": "~0.9"
