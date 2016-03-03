@@ -8,8 +8,8 @@ class TimberTwig {
 
   public function add_to_twig($twig){
     $twig->addFunction(
-      new \Twig_SimpleFunction('vertical_advert',
-        array('AgreableAdvertPlugin\Services\AdvertSlotGenerator', 'get_vertical_advert'))
+      new \Twig_SimpleFunction('advert_data',
+        array('AgreableAdvertPlugin\Services\AdvertSlotGenerator', 'get_advert'))
     );
     return $twig;
   }

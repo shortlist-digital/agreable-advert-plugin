@@ -3,8 +3,12 @@ googletag.cmd = googletag.cmd || [];
 
 (function() {
 
+  var advertClassWaitingForVisible = 'advert-container--status-waiting-for-visible'
+    , advertClassNoInit = 'advert-container--status-no-init'
+    , advertClassRender = 'advert-container--status-render'
+
   function loadAdLibrary() {
-    console.log('Load ad library')
+    console.log('AgreableAdPlugin: Load ad library')
     var gads = document.createElement("script");
     gads.async = true;
     gads.type = "text/javascript";
@@ -14,7 +18,7 @@ googletag.cmd = googletag.cmd || [];
     node.parentNode.insertBefore(gads, node);
 
     window.googletag.cmd.push(function() {
-      console.log('Ad library loaded')
+      console.log('AgreableAdPlugin: DFP loaded')
       googletag.pubads().collapseEmptyDivs()
       googletag.pubads().enableAsyncRendering()
       googletag.enableServices()
@@ -24,13 +28,17 @@ googletag.cmd = googletag.cmd || [];
   }
 
   function initAdContainers() {
-    $('.advert-container--no-init').each(function(index, advertContainerElement){
+    console.log('AgreableAdPlugin: Init ad containers')
+
+    $('.' + advertClassNoInit).each(function(index, advertContainerElement){
       setupAdContainer($(advertContainerElement))
     }.bind(this))
+
+    setInterval(checkForAdSlotsInView.bind(this), 400)
   }
 
   function setupAdContainer($adContainerEl) {
-    console.log('Setup ad container')
+    console.log('AgreableAdPlugin: Setup ad container')
 
     var $advertData = $adContainerEl.find('.advert-data')
     var advertData = JSON.parse($advertData.html())
@@ -39,33 +47,87 @@ googletag.cmd = googletag.cmd || [];
     console.log(advertSlotId)
 
     window.googletag.cmd.push(function() {
-      console.log('Advert widget setup')
+      console.log('AgreableAdPlugin: Advert widget setup')
+      var tag = generateAdTag(advertData)
+      var createAdSizes = getCreativeAdSizes(advertData)
+      console.log('AgreableAdPlugin: Tag - ' + tag)
+      console.log('AgreableAdPlugin: Creative Sizes - ' + createAdSizes)
 
       var slot = googletag.defineSlot(
-        advertData.tag,
-        filterCompatibleCreativeSizes(advertData.creativeSizes, advertData.type),
+        tag,
+        createAdSizes,
         advertSlotId
       )
       .addService(googletag.pubads())
 
-      googletag.display(advertSlotId)
+      $adContainerEl
+        .removeClass(advertClassNoInit)
+        .addClass(advertClassWaitingForVisible)
 
     })
   }
 
-  function filterCompatibleCreativeSizes(creativeSizes, advertType) {
-    var windowWidth = $(window).width();
+  function generateAdTag(advertData) {
+    var tagChunks = []
+    tagChunks.push(advertData.accountPrefix)
+    tagChunks.push(advertData.section)
+    tagChunks.push(advertData.pageType)
+    tagChunks.push(advertData.typeTag)
 
-    filteredCreativeSizes = []
+    var deviceAdData = advertData[getDeviceType(advertData)]
 
-    creativeSizes.forEach(function onCreativeSize(creativeSize) {
-      if (creativeSize[0] < windowWidth) {
-        filteredCreativeSizes.push(creativeSize)
+    if (typeof deviceAdData.postfix === 'object') {
+      tagChunks.push(deviceAdData.postfix[0])
+    } else {
+      tagChunks.push(deviceAdData.postfix)
+    }
+    return tagChunks.join('_')
+  }
+
+  function getCreativeAdSizes(advertData) {
+    var deviceAdData = advertData[getDeviceType(advertData)]
+    return deviceAdData.creativeSizes
+  }
+
+  function getDeviceType() {
+    var windowWidth = $(window).width()
+    if (windowWidth >= 1024) {
+      return 'desktop'
+    } else if (windowWidth >= 768) {
+      return 'tablet'
+    }
+    return 'mobile'
+  }
+
+  /**
+   * Only render ad slots which are in view to the user
+   */
+  function checkForAdSlotsInView() {
+    var deviceType = getDeviceType()
+    $('.widget--show-on-' + deviceType + ' .' + advertClassWaitingForVisible).each(function onAdvertSlot(index, advertSlotEl) {
+      var $advertSlot = $(advertSlotEl)
+
+      // Cancel out the scrolltop to normalise the position the elemnt is within the viewport
+      var relativeElementTop = $('.advert-container').eq(0).position().top - $(window).scrollTop()
+
+      if (relativeElementTop < $(window).height() && relativeElementTop > 0) {
+        //In view
+        renderAdSlot($advertSlot)
       }
 
     })
+  }
 
-    return filteredCreativeSizes
+  function renderAdSlot($advertSlot) {
+    var adSlotId = $advertSlot.find('.advert-data').data('id')
+
+    console.log('AgreableAdPlugin: render ad slot: ' + adSlotId)
+
+    $advertSlot
+      .removeClass(advertClassWaitingForVisible)
+      .addClass(advertClassRender)
+
+    googletag.display(adSlotId)
   }
 
   loadAdLibrary()

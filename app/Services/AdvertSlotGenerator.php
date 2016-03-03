@@ -3,41 +3,45 @@
 use \stdClass;
 
 class AdvertSlotGenerator {
-  public static function get_vertical_advert($advert_widget, $category, $rowWidgetIndex, $elementId) {
-    $ad_slot = self::get_basic_ad_slot();
+  public static function get_advert($advert_widget, $category, $rowWidgetIndex, $elementId) {
+    $ad_slot = new stdClass();
     $ad_slot->section = $category->slug;
-    $ad_slot->pageType = "Article";
+    $ad_slot->pageType = 'article';
+    $ad_slot->accountPrefix = get_field('advert_account_prefix', 'option');
 
     if ($advert_widget['type'] === 'vertical') {
+      $ad_slot->typeTag = '300x600';
       $ad_slot->type = 'vertical';
-      $ad_slot->typeTag = "300x600";
-      $ad_slot->creativeSizes = [[300, 600], [300, 250]];
-      $ad_slot->index = 1;
+
+      $ad_slot->mobile = new stdClass();
+      $ad_slot->mobile->creativeSizes = [[300, 601], [300, 251]];
+      $ad_slot->mobile->postfix = 'mobile';
+
+      $ad_slot->tablet = new stdClass();
+      $ad_slot->tablet->creativeSizes = [[300, 602], [300, 252]];
+      $ad_slot->tablet->postfix = [1, 2, 'infinite'];
+
+      $ad_slot->desktop = new stdClass();
+      $ad_slot->desktop->creativeSizes = [[300, 600], [300, 250]];
+      $ad_slot->desktop->postfix = [1, 2, 'infinite'];
     } else if ($advert_widget['type'] === 'horizontal') {
+      $ad_slot->typeTag = '970x250';
       $ad_slot->type = 'horizontal';
-      $ad_slot->typeTag = "970x250";
-      $ad_slot->index = '1A';
-      $ad_slot->creativeSizes = [[970, 250], [728, 90], [320, 50]];
+      $ad_slot->mobile = new stdClass();
+      $ad_slot->mobile->creativeSizes = [[320, 50]];
+      $ad_slot->mobile->postfix = ['1A', 2, 'infinite'];
+
+      $ad_slot->tablet = new stdClass();
+      $ad_slot->tablet->creativeSizes = [[728, 91], [728, 250]];
+      $ad_slot->tablet->postfix = ['1A', 2, 'infinite'];
+
+      $ad_slot->desktop = new stdClass();
+      $ad_slot->desktop->creativeSizes = [[970, 250], [970, 90], [728, 90]];
+      $ad_slot->desktop->postfix = ['1A', 2, 'infinite'];
     } else {
       throw new \Exception('Unknown advert widget $type: ' . $advert_widget->type);
     }
 
-    $ad_slot->tag = self::generate_ad_tag($ad_slot);
     return apply_filters('agreable_advert_slot_generator_filter', $ad_slot);
-  }
-
-  protected static function get_basic_ad_slot() {
-    $ad = new stdClass();
-    $ad->account = get_field('advert_account_prefix', 'option');
-    $ad->section = "";
-    $ad->pageType = "";
-    $ad->typeTag = "";
-    $ad->index = 0;
-    $ad->creativeSizes = [];
-    return $ad;
-  }
-
-  protected static function generate_ad_tag($ad_slot) {
-    return "/" . $ad_slot->account . "_" . $ad_slot->section . "_" . $ad_slot->pageType . "_" . $ad_slot->typeTag . "_" . $ad_slot->index;
   }
 }
