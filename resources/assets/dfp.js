@@ -43,7 +43,7 @@ googletag.cmd = googletag.cmd || [];
 
       var slot = googletag.defineSlot(
         advertData.tag,
-        advertData.creativeSizes,
+        filterCompatibleCreativeSizes(advertData.creativeSizes, advertData.type),
         advertSlotId
       )
       .addService(googletag.pubads())
@@ -51,6 +51,21 @@ googletag.cmd = googletag.cmd || [];
       googletag.display(advertSlotId)
 
     })
+  }
+
+  function filterCompatibleCreativeSizes(creativeSizes, advertType) {
+    var windowWidth = $(window).width();
+
+    filteredCreativeSizes = []
+
+    creativeSizes.forEach(function onCreativeSize(creativeSize) {
+      if (creativeSize[0] < windowWidth) {
+        filteredCreativeSizes.push(creativeSize)
+      }
+
+    })
+
+    return filteredCreativeSizes
   }
 
   loadAdLibrary()
