@@ -77,6 +77,13 @@ googletag.cmd = googletag.cmd || [];
         .removeClass(advertClassNoInit)
         .addClass(advertClassWaitingForVisible)
 
+      window.googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+       console.log('AgreableAdPlugin: Creative with id: ' + event.creativeId +
+        ' is rendered to slot of size: ' + event.size[0] + 'x' + event.size[1]);
+
+       $adContainerEl.addClass('advert-container--status-rendered')
+      });
+
     })
   }
 
