@@ -60,6 +60,19 @@ googletag.cmd = googletag.cmd || [];
       )
       .addService(googletag.pubads())
 
+      slot.setTargeting('ArtName', advertData.art_name)
+
+      if (advertData.category) {
+        slot.setTargeting('Section', advertData.category)
+      }
+
+      if (advertData.sub_category) {
+        slot.setTargeting('SubCat', advertData.sub_category)
+        slot.setTargeting('isSubCat', true)
+      }
+
+      // slot.setTargeting('Campaign','')
+
       $adContainerEl
         .removeClass(advertClassNoInit)
         .addClass(advertClassWaitingForVisible)
@@ -68,9 +81,10 @@ googletag.cmd = googletag.cmd || [];
   }
 
   function generateAdTag(advertData) {
+    console.warn('This article does not have a category associated with it and may not load ads.')
     var tagChunks = []
     tagChunks.push(advertData.accountPrefix)
-    tagChunks.push(advertData.section)
+    tagChunks.push(advertData.category)
     tagChunks.push(advertData.pageType)
     tagChunks.push(advertData.typeTag)
 
