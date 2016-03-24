@@ -67,4 +67,9 @@ class AdvertSlotGenerator {
 
     return apply_filters('agreable_advert_slot_generator_filter', $ad_slot);
   }
+
+  public static function generate_advert_widget($type) {
+    $widget = ['type' => $type];
+    return $widget;
+  }
 }

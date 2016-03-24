@@ -33,7 +33,6 @@ googletag.cmd = googletag.cmd || [];
     $('.' + advertClassNoInit).each(function(index, advertContainerElement){
       setupAdContainer($(advertContainerElement))
     }.bind(this))
-
     setInterval(checkForAdSlotsInView.bind(this), 400)
   }
 
@@ -43,8 +42,6 @@ googletag.cmd = googletag.cmd || [];
     var $advertData = $adContainerEl.find('.advert-data')
     var advertData = JSON.parse($advertData.html())
     var advertSlotId = $advertData.data('id')
-    console.log(advertData)
-    console.log(advertSlotId)
 
     window.googletag.cmd.push(function() {
       console.log('AgreableAdPlugin: Advert widget setup')
@@ -82,6 +79,7 @@ googletag.cmd = googletag.cmd || [];
         ' is rendered to slot of size: ' + event.size[0] + 'x' + event.size[1]);
 
        $adContainerEl.addClass('advert-container--status-rendered')
+       window.APP.EventDispatcher.trigger('advert:rendered', $adContainerEl)
       });
 
     })
@@ -131,7 +129,7 @@ googletag.cmd = googletag.cmd || [];
       // Cancel out the scrolltop to normalise the position the elemnt is within the viewport
       var relativeElementTop = $('.advert-container').eq(0).position().top - $(window).scrollTop()
 
-      if (relativeElementTop < $(window).height() && relativeElementTop > 0) {
+      if (relativeElementTop <= $(window).height() && relativeElementTop >= 0) {
         //In view
         renderAdSlot($advertSlot)
       }
