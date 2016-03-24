@@ -89,7 +89,9 @@ googletag.cmd = googletag.cmd || [];
   }
 
   function generateAdTag(advertData) {
-    console.warn('This article does not have a category associated with it and may not load ads.')
+    if (!advertData.category) {
+      console.warn('This article does not have a category associated with it and may not load ads.')
+    }
     var tagChunks = []
     tagChunks.push(advertData.accountPrefix)
     tagChunks.push(advertData.category)
