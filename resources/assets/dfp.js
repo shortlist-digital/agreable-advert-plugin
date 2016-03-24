@@ -17,6 +17,8 @@ googletag.cmd = googletag.cmd || [];
     var node =document.getElementsByTagName("script")[0];
     node.parentNode.insertBefore(gads, node);
 
+    APP.adverts = {}
+
     window.googletag.cmd.push(function() {
       console.log('AgreableAdPlugin: DFP loaded')
       googletag.pubads().collapseEmptyDivs()
@@ -46,6 +48,7 @@ googletag.cmd = googletag.cmd || [];
     window.googletag.cmd.push(function() {
       console.log('AgreableAdPlugin: Advert widget setup')
       var tag = generateAdTag(advertData)
+
       var createAdSizes = getCreativeAdSizes(advertData)
       console.log('AgreableAdPlugin: Tag - ' + tag)
       console.log('AgreableAdPlugin: Creative Sizes - ' + createAdSizes)
@@ -95,8 +98,21 @@ googletag.cmd = googletag.cmd || [];
 
     var deviceAdData = advertData[getDeviceType(advertData)]
 
+    var basicTag = tagChunks.join('_')
+
+    if (typeof APP.adverts[basicTag] === 'undefined') {
+      APP.adverts[basicTag] = {
+        advertData: advertData,
+        occurrence: 1
+      }
+    } else {
+      APP.adverts[basicTag].occurrence++
+    }
+
     if (typeof deviceAdData.postfix === 'object') {
-      tagChunks.push(deviceAdData.postfix[0])
+      var tagPostfix = Math.min(APP.adverts[basicTag].occurrence -1, deviceAdData.postfix.length -1)
+
+      tagChunks.push(deviceAdData.postfix[tagPostfix])
     } else {
       tagChunks.push(deviceAdData.postfix)
     }
