@@ -18,7 +18,7 @@ googletag.cmd = googletag.cmd || [];
     var node =document.getElementsByTagName("script")[0];
     node.parentNode.insertBefore(gads, node);
 
-    APP.adverts = {}
+    window.APP.adverts = {}
 
     window.googletag.cmd.push(function() {
       console.log('AgreableAdPlugin: DFP loaded')
@@ -134,17 +134,17 @@ googletag.cmd = googletag.cmd || [];
 
     var basicTag = tagChunks.join('_')
 
-    if (typeof APP.adverts[basicTag] === 'undefined') {
-      APP.adverts[basicTag] = {
+    if (typeof window.APP.adverts[basicTag] === 'undefined') {
+      window.APP.adverts[basicTag] = {
         advertData: advertData,
         occurrence: 1
       }
     } else {
-      APP.adverts[basicTag].occurrence++
+      window.APP.adverts[basicTag].occurrence++
     }
 
     if (typeof deviceAdData.postfix === 'object') {
-      var tagPostfix = Math.min(APP.adverts[basicTag].occurrence -1, deviceAdData.postfix.length -1)
+      var tagPostfix = Math.min(window.APP.adverts[basicTag].occurrence -1, deviceAdData.postfix.length -1)
 
       tagChunks.push(deviceAdData.postfix[tagPostfix])
     } else {
