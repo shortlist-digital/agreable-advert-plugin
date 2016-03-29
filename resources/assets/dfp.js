@@ -197,15 +197,14 @@ googletag.cmd = googletag.cmd || [];
       .addClass(advertClassRender)
 
     googletag.display(adSlotId)
-    setTimeout(checkAdSlotIsPopulated.bind(this, $advertSlot), 300)
+    setTimeout(checkAdSlotIsPopulated.bind(this, $advertSlot), 200)
   }
 
   function checkAdSlotIsPopulated($advertSlot) {
     if ($advertSlot.children('div:first-child').is(':visible') === false) {
-      var $adParent = $advertSlot.parent()
-      if (!$adParent.hasClass('advert-failed')) {
-        $advertSlot.parent().addClass('advert-failed')
-      }
+      $advertSlot.parent().addClass('advert-failed')
+      console.log('AgreableAdPlugin: slot failed to render')
+      setTimeout(checkAdSlotIsPopulated.bind(this, $advertSlot), 300)
     }
   }
 
