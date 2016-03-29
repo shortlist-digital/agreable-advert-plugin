@@ -6,6 +6,7 @@ googletag.cmd = googletag.cmd || [];
   var advertClassWaitingForVisible = 'advert-container--status-waiting-for-visible'
     , advertClassNoInit = 'advert-container--status-no-init'
     , advertClassRender = 'advert-container--status-render'
+    , advertClassRendered = 'advert-container--status-rendered'
 
   function loadAdLibrary() {
     console.log('AgreableAdPlugin: Load ad library')
@@ -84,7 +85,7 @@ googletag.cmd = googletag.cmd || [];
        console.log('AgreableAdPlugin: Creative with id: ' + event.creativeId +
         ' is rendered to slot of size: ' + event.size[0] + 'x' + event.size[1]);
 
-       $adContainerEl.addClass('advert-container--status-rendered')
+       $adContainerEl.addClass(advertClassRendered)
        window.APP.EventDispatcher.trigger('advert:rendered', $adContainerEl)
       });
 
@@ -176,9 +177,9 @@ googletag.cmd = googletag.cmd || [];
       var $advertSlot = $(advertSlotEl)
 
       // Cancel out the scrolltop to normalise the position the elemnt is within the viewport
-      var relativeElementTop = $('.advert-container').eq(0).position().top - $(window).scrollTop()
+      var relativeElementTop = $advertSlot.position().top - $(window).scrollTop()
 
-      if (relativeElementTop <= $(window).height() && relativeElementTop >= 0) {
+      if ((relativeElementTop <= $(window).height()) && (relativeElementTop >= 0)) {
         //In view
         renderAdSlot($advertSlot)
       }
@@ -196,6 +197,16 @@ googletag.cmd = googletag.cmd || [];
       .addClass(advertClassRender)
 
     googletag.display(adSlotId)
+    setTimeout(checkAdSlotIsPopulated.bind(this, $advertSlot), 300)
+  }
+
+  function checkAdSlotIsPopulated($advertSlot) {
+    if ($advertSlot.children('div:first-child').is(':visible') === false) {
+      var $adParent = $advertSlot.parent()
+      if (!$adParent.hasClass('advert-failed')) {
+        $advertSlot.parent().addClass('advert-failed')
+      }
+    }
   }
 
   loadAdLibrary()
