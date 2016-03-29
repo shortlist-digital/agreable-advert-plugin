@@ -43,6 +43,11 @@ googletag.cmd = googletag.cmd || [];
 
     var $advertData = $adContainerEl.find('.advert-data')
     var advertData = JSON.parse($advertData.html())
+
+    advertData = overrideAdSection(advertData)
+    console.log('advertData')
+    console.log(advertData)
+
     var advertSlotId = $advertData.data('id')
 
     window.googletag.cmd.push(function() {
@@ -62,9 +67,7 @@ googletag.cmd = googletag.cmd || [];
 
       slot.setTargeting('ArtName', advertData.art_name)
 
-      if (advertData.category) {
-        slot.setTargeting('Section', advertData.category)
-      }
+      slot.setTargeting('Section', advertData.category)
 
       if (advertData.sub_category) {
         slot.setTargeting('SubCat', advertData.sub_category)
@@ -86,6 +89,34 @@ googletag.cmd = googletag.cmd || [];
       });
 
     })
+  }
+
+  function overrideAdSection(advertData) {
+    advertData.category = getAdSection(advertData.category)
+    return advertData
+  }
+
+  function getAdSection(category) {
+    var query = window.location.search
+    var advertSection
+    if (query.indexOf('advertSection') !== -1) {
+      console.log('Matched advert section')
+      query.substr(1).split('&').forEach(function(queryPart) {
+        console.log(queryPart)
+        var queryKeyValue = queryPart.split('=')
+        if (queryKeyValue[0] === 'advertSection') {
+          console.log('Advert section found ' + queryKeyValue[1])
+          advertSection = queryKeyValue[1]
+          return false
+        }
+      })
+    }
+
+    if (!advertSection) {
+      advertSection = category
+    }
+    console.log('Here it is again: ' + advertSection)
+    return advertSection
   }
 
   function generateAdTag(advertData) {
