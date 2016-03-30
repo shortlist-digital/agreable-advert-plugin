@@ -1,30 +1,23 @@
 <?php namespace AgreableAdvertPlugin\Services;
 
+// require_once "libs/services/CategoryService.php";
+
+use \AgreableCategoryService;
 use \stdClass;
 
 class AdvertSlotGenerator {
   public static function get_advert($advert_widget, $post, $rowWidgetIndex, $elementId) {
 
-    $post_categories = \wp_get_post_categories($post->id);
-    $categories = array();
-
-    foreach($post_categories as $c){
-      $cat = get_category($c);
-      $categories[] = ['name' => $cat->name, 'slug' => $cat->slug];
-    }
+    $categories = AgreableCategoryService::get_post_category_hierarchy($post);
 
     $ad_slot = new stdClass();
 
-    if (count($categories) >= 1) {
-      $ad_slot->category = $categories[0]['slug'];
-    } else {
-      $ad_slot->category = null;
+    if ($categories->parent) {
+      $ad_slot->category = $categories->parent->slug;
     }
 
-    if (count($categories) == 2) {
-      $ad_slot->sub_category = $categories[1]['slug'];
-    } else {
-      $ad_slot->sub_category = null;
+    if ($categories->child) {
+      $ad_slot->sub_category = $categories->child->slug;
     }
 
     $ad_slot->pageType = 'article';
