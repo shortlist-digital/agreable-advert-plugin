@@ -17,7 +17,7 @@ class SLMPluginEnqueue {
 
   public function plugin_enqueue(){
     global $post;
-    if ($post->post_type !== 'longform') {
+    if (!isset($post) || !isset($post->post_type) || $post->post_type !== 'longform') {
       return;
     }
     // Has the code already been enqueued once?
