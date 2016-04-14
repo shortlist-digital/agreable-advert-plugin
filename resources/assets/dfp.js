@@ -32,7 +32,6 @@ googletag.cmd = googletag.cmd || [];
 
   function initAdContainers() {
     console.log('AgreableAdPlugin: Init ad containers')
-
     $('.' + advertClassNoInit).each(function(index, advertContainerElement){
       setupAdContainer($(advertContainerElement))
     }.bind(this))
@@ -173,7 +172,7 @@ googletag.cmd = googletag.cmd || [];
    */
   function checkForAdSlotsInView() {
     var deviceType = getDeviceType()
-    $('.widget--show-on-' + deviceType + ' .' + advertClassWaitingForVisible).each(function onAdvertSlot(index, advertSlotEl) {
+    $('.' + advertClassWaitingForVisible).each(function onAdvertSlot(index, advertSlotEl) {
       var $advertSlot = $(advertSlotEl)
 
       // Cancel out the scrolltop to normalise the position the elemnt is within the viewport

@@ -1,6 +1,7 @@
-<?php namespace AgreableAdvertPlugin\Services;
+<?php
+namespace AgreableAdvertPlugin\Services;
 
-// require_once "libs/services/CategoryService.php";
+require_once get_template_directory() . "/libs/services/CategoryService.php";
 
 use \AgreableCategoryService;
 use \stdClass;
