@@ -7,7 +7,7 @@ use \AgreableCategoryService;
 use \stdClass;
 
 class AdvertSlotGenerator {
-  public static function get_advert($advert_widget, $post, $rowWidgetIndex, $elementId) {
+  public static function get_advert($advert_widget, $post, $post_fix_override = null) {
 
     $categories = AgreableCategoryService::get_post_category_hierarchy($post);
 
@@ -57,6 +57,10 @@ class AdvertSlotGenerator {
       $ad_slot->desktop->postfix = ['1A', 2, 'infinite'];
     } else {
       throw new \Exception('Unknown advert widget $type: ' . $advert_widget->type);
+    }
+
+    if ($post_fix_override) {
+      $ad_slot->postFixOverride = $post_fix_override;
     }
 
     return apply_filters('agreable_advert_slot_generator_filter', $ad_slot);

@@ -4,13 +4,6 @@
 
 $router->get([
   'as'   => 'advertView',
-  'uri'  => '/advert/{category_slug}/{sub_category_slug}/{generic_name}/{position}',
-  'uses' => __NAMESPACE__ . '\Controllers\AdvertController@view_category_sub'
+  'uri'  => '/advert/{post_id}/{generic_name}/{position}',
+  'uses' => __NAMESPACE__ . '\Controllers\AdvertController@view'
 ]);
-
-$router->get([
-  'as'   => 'advertView',
-  'uri'  => '/advert/{category_slug}/{generic_name}/{position}',
-  'uses' => __NAMESPACE__ . '\Controllers\AdvertController@view_category'
-]);
-

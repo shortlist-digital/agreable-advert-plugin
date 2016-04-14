@@ -142,13 +142,16 @@ googletag.cmd = googletag.cmd || [];
       window.agreableAdverts[basicTag].occurrence++
     }
 
-    if (typeof deviceAdData.postfix === 'object') {
+    if (advertData.postFixOverride) {
+      tagChunks.push(advertData.postFixOverride)
+    } else if (typeof deviceAdData.postfix === 'object') {
       var tagPostfix = Math.min(window.agreableAdverts[basicTag].occurrence -1, deviceAdData.postfix.length -1)
 
       tagChunks.push(deviceAdData.postfix[tagPostfix])
     } else {
       tagChunks.push(deviceAdData.postfix)
     }
+
     return tagChunks.join('_')
   }
 
