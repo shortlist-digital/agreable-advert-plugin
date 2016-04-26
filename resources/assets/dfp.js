@@ -174,8 +174,7 @@ googletag.cmd = googletag.cmd || [];
    * Only render ad slots which are in view to the user
    */
   function checkForAdSlotsInView() {
-    var deviceType = getDeviceType()
-    $('.' + advertClassWaitingForVisible).each(function onAdvertSlot(index, advertSlotEl) {
+    $(' .' + advertClassWaitingForVisible).each(function onAdvertSlot(index, advertSlotEl) {
       var $advertSlot = $(advertSlotEl)
 
       // Cancel out the scrolltop to normalise the position the elemnt is within the viewport
