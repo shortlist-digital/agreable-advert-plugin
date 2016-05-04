@@ -67,7 +67,7 @@ googletag.cmd = googletag.cmd || [];
 
       slot.setTargeting('ArtName', advertData.art_name)
 
-      slot.setTargeting('Section', advertData.category)
+      slot.setTargeting('Section', advertData.section)
 
       if (advertData.sub_category) {
         slot.setTargeting('SubCat', advertData.sub_category)

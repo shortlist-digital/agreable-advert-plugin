@@ -13,12 +13,28 @@ class AdvertSlotGenerator {
 
     $ad_slot = new stdClass();
 
-    if ($categories->parent) {
+    if ($categories->parent->slug) {
       $ad_slot->category = $categories->parent->slug;
     }
 
     if ($categories->child) {
       $ad_slot->sub_category = $categories->child->slug;
+    }
+
+    $section_map = [
+      'fashion' => '2003',
+      'beauty' => '2001',
+      'books' => '2002',
+      'life' => '2006',
+      'people' => '2007',
+      'travel' => '2009',
+      'win' => '2010',
+    ];
+
+    if (isset($section_map[$categories->parent->slug])) {
+      $ad_slot->section = $section_map[$categories->parent->slug];
+    } else {
+      $ad_slot->section = $categories->parent->slug;
     }
 
     $ad_slot->pageType = 'article';
