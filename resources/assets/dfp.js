@@ -126,7 +126,7 @@ googletag.cmd = googletag.cmd || [];
     var tagChunks = []
     tagChunks.push(advertData.accountPrefix)
     tagChunks.push(advertData.category)
-    tagChunks.push(advertData.pageType)
+    tagChunks.push(advertData.contentType)
     tagChunks.push(advertData.typeTag)
 
     var deviceAdData = advertData[getDeviceType(advertData)]

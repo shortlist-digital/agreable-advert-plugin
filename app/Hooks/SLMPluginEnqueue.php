@@ -16,10 +16,6 @@ class SLMPluginEnqueue {
   }
 
   public function plugin_enqueue(){
-    global $post;
-    if (!isset($post) || !isset($post->post_type) || $post->post_type !== 'longform') {
-      return;
-    }
     // Has the code already been enqueued once?
     if (self::$advert_code_enqueued === false) {
       $r = new RenderController();

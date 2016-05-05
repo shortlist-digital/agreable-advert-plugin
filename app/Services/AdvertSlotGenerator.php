@@ -7,12 +7,14 @@ use \AgreableCategoryService;
 use \stdClass;
 
 class AdvertSlotGenerator {
-  public static function get_advert($advert_widget, $post, $post_fix_override = null, $type_override = null, $category_override = null, $art_name_override = null, $section_override = null) {
+  public static function get_advert($post, $display_type, $content_type = 'article', $category_override = null, $art_name_override = null, $section_override = null, $post_fix_override = null) {
     $categories = AgreableCategoryService::get_post_category_hierarchy($post);
 
     $ad_slot = new stdClass();
 
-    if ($categories->parent->slug) {
+    if ($category_override) {
+      $ad_slot->category = $category_override;
+    } else if ($categories->parent->slug) {
       $ad_slot->category = $categories->parent->slug;
     }
 
@@ -40,7 +42,7 @@ class AdvertSlotGenerator {
       }
     }
 
-    $ad_slot->pageType = 'article';
+    $ad_slot->contentType = $content_type;
     $ad_slot->accountPrefix = get_field('advert_account_prefix', 'option');
 
     if ($art_name_override) {
@@ -49,12 +51,8 @@ class AdvertSlotGenerator {
       $ad_slot->art_name = substr($post->slug, 0, 40);
     }
 
-    if ($type_override) {
-      $advert_widget['type'] = $type_override;
-    }
-
-    $ad_slot->type = $advert_widget['type'];
-    switch ($advert_widget['type']) {
+    $ad_slot->displayType = $display_type;
+    switch ($display_type) {
       case 'vertical':
         $ad_slot->typeTag = '300x600';
 
@@ -84,20 +82,20 @@ class AdvertSlotGenerator {
         $ad_slot->desktop->creativeSizes = [[970, 250], [970, 90], [728, 90]];
         $ad_slot->desktop->postfix = ['1A', 2, 'infinite'];
         break;
-      case 'skinL':
+      case 'SkinL':
         $ad_slot->typeTag = 'SkinL';
         $ad_slot->desktop = new stdClass();
         $ad_slot->desktop->creativeSizes = [[2, 1], [312, 900]];
         $ad_slot->desktop->postfix = [1];
         break;
-      case 'skinR':
+      case 'SkinR':
         $ad_slot->typeTag = 'SkinR';
         $ad_slot->desktop = new stdClass();
         $ad_slot->desktop->creativeSizes = [[2, 2], [312, 901]];
         $ad_slot->desktop->postfix = [1];
         break;
       default:
-        throw new \Exception('Unknown advert widget $type: ' . $advert_widget->type);
+        throw new \Exception('Unknown advert widget $type: ' . $display_type);
         break;
     }
 
