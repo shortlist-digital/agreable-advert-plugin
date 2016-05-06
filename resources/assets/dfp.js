@@ -115,7 +115,6 @@ googletag.cmd = googletag.cmd || [];
     if (!advertSection) {
       advertSection = category
     }
-    console.log('Here it is again: ' + advertSection)
     return advertSection
   }
 
@@ -180,7 +179,7 @@ googletag.cmd = googletag.cmd || [];
       // Cancel out the scrolltop to normalise the position the elemnt is within the viewport
       var relativeElementTop = $advertSlot.position().top - $(window).scrollTop()
 
-      if ((relativeElementTop <= $(window).height()) && (relativeElementTop >= 0)) {
+      if ((relativeElementTop <= $(window).height()) /*&& (relativeElementTop >= 0)*/) {
         //In view
         renderAdSlot($advertSlot)
       }

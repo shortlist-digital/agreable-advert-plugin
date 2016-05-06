@@ -4,6 +4,6 @@
 
 $router->get([
   'as'   => 'advertView',
-  'uri'  => '/advert/{post_id}/{generic_name}/{position}',
+  'uri'  => '/advert/{post_id}/{display_type}/{post_fix_override}',
   'uses' => __NAMESPACE__ . '\Controllers\AdvertController@view'
 ]);

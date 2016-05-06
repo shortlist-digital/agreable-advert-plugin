@@ -95,7 +95,7 @@ class AdvertSlotGenerator {
         $ad_slot->desktop->postfix = [1];
         break;
       default:
-        throw new \Exception('Unknown advert widget $type: ' . $display_type);
+        throw new \Exception('Unknown advert widget $display_type: ' . $display_type);
         break;
     }
 

@@ -5,7 +5,7 @@ use \Exception;
 
 class AdvertController {
 
-  public function view($post_id, $generic_name, $position) {
+  public function view($post_id, $display_type, $post_fix_override) {
 
     herbert('Twig_Environment')->addFunction( new \Twig_SimpleFunction('advert_data',
       array('AgreableAdvertPlugin\Services\AdvertSlotGenerator', 'get_advert')));
@@ -21,8 +21,8 @@ class AdvertController {
     echo view('@AgreableAdvertPlugin/advert.twig', [
       'post' => $post,
       'js_string' => $js_string,
-      'position' => $position,
-      'generic_name' => $generic_name,
+      'post_fix_override' => $post_fix_override,
+      'display_type' => $display_type,
     ])->getBody();
   }
 }

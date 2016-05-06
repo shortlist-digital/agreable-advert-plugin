@@ -21,8 +21,7 @@
   </head>
   <body>
     {% set adSlotId = 'ad-' ~ random(100000000) %}
-    {% set widget = {'type':generic_name} %}
-    {% set advertData = advert_data(widget, post, position) %}
+    {% set advertData = advert_data(post, display_type, 'article', null, null, null, post_fix_override) %}
     <div class='advert-container
         advert-container--status-no-init
         advert-container--type-{{ advertData.type }} js-module'
