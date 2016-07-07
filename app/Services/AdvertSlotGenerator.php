@@ -25,25 +25,22 @@ class AdvertSlotGenerator {
     if ($section_override) {
       $ad_slot->section = $section_override;
     } else {
-      $section_map = [
-        'fashion' => '2003',
-        'beauty' => '2001',
-        'books' => '2002',
-        'life' => '2006',
-        'people' => '2007',
-        'travel' => '2009',
-        'win' => '2010',
-      ];
-
-      if (isset($section_map[$categories->parent->slug])) {
-        $ad_slot->section = $section_map[$categories->parent->slug];
-      } else {
-        $ad_slot->section = $categories->parent->slug;
+      $category_map = get_field('category_dfp_id_map', 'adverts-configuration');
+      $section_map = [];
+      foreach($category_map as $category) {
+        $section_map[$category['category']] = $category['dfp_id'];
       }
+
+      if (isset($section_map[$categories->parent->id])) {
+        $ad_slot->section = $section_map[$categories->parent->id];
+      } else {
+        $ad_slot->section = "A DFP ID for this section has not been configured";
+      }
+
     }
 
     $ad_slot->contentType = $content_type;
-    $ad_slot->accountPrefix = get_field('advert_account_prefix', 'option');
+    $ad_slot->accountPrefix = get_field('advert_account_prefix', 'adverts-configuration');
 
     if ($art_name_override) {
       $ad_slot->art_name = $art_name_override;
