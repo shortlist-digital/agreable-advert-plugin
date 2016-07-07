@@ -11,7 +11,7 @@ class TimberTwig {
 
   public function add_to_twig($twig){
     $twig->addFunction(
-      new \wig_SimpleFunction('advert_data',
+      new Twig_SimpleFunction('advert_data',
         array('AgreableAdvertPlugin\Services\AdvertSlotGenerator', 'get_advert'))
     );
 
