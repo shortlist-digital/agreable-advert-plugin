@@ -31,8 +31,9 @@ class AdvertSlotGenerator {
         $section_map[$category['category']] = $category['dfp_id'];
       }
 
-      if (isset($section_map[$categories->parent->id])) {
-        $ad_slot->section = $section_map[$categories->parent->id];
+      $category_id = get_category_by_slug($categories->parent->slug)->cat_ID;
+      if (isset($section_map[$category_id])) {
+        $ad_slot->section = $section_map[$category_id];
       } else {
         $ad_slot->section = "A DFP ID for this section has not been configured";
       }
