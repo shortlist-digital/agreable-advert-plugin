@@ -45,3 +45,30 @@ Wordpress Plugin built for Croissant stack using [Herbert](http://getherbert.com
   </script>
 </div>
 ```
+
+## Use within PHP
+
+```
+$advert_data = AgreableAdvertPlugin\Services\AdvertSlotGenerator::get_advert_data($post, 'horizontal', ['pos' => 'top']);
+var_dump($advert_data);
+// Outputs
+{
+  'type': 'horizontal',
+  'targetting': [{'pos': 'top'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[970, 250], [728, 90]]
+    }, 
+    'tablet': {
+      'creative-sizes': [[728, 90]]
+    }, 
+    'mobile': {
+      'creative-sizes': [[320, 50]]
+    }
+  }
+}
+```
+
+## API routes
+
+TODO
