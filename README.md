@@ -71,4 +71,8 @@ var_dump($advert_data);
 
 ## API routes
 
-TODO
+Get a single advert, rendered as HTML, complete with container CSS and JS to load (for Instant Articles):
+
+```
+/advert/2074/horizontal/pos=top,another_key=value
+```
