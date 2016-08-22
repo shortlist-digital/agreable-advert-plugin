@@ -7,9 +7,6 @@ Wordpress Plugin built for Croissant stack using [Herbert](http://getherbert.com
 
 ## Use within Twig
 
-Shortlist Media Wordpress Advert Plugin
-===============
-
 ### Get advert data
 
 ```
