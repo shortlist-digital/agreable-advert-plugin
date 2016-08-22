@@ -7,7 +7,7 @@ use \AgreableCategoryService;
 use \stdClass;
 
 class AdvertSlotGenerator {
-  public static function get_advert($post, $display_type, $content_type = 'article', $category_override = null, $art_name_override = null, $section_override = null, $post_fix_override = null) {
+  public static function get_advert($post, $generic_type, $position = 'manual', $category_override = null) {
     $categories = AgreableCategoryService::get_post_category_hierarchy($post);
 
     $ad_slot = new stdClass();
@@ -22,83 +22,56 @@ class AdvertSlotGenerator {
       $ad_slot->sub_category = $categories->child->slug;
     }
 
-    if ($section_override) {
-      $ad_slot->section = $section_override;
-    } else {
-      $category_map = get_field('category_dfp_id_map', 'adverts-configuration');
-      $section_map = [];
-      foreach($category_map as $category) {
-        $section_map[$category['category']] = $category['dfp_id'];
-      }
+    $ad_slot->network = get_field('advert_account_network', 'adverts-configuration');
+    $ad_slot->zone_prefix = get_field('advert_account_zone_prefix', 'adverts-configuration');
+    $ad_slot->zone = $ad_slot->zone_prefix . '/' . $ad_slot->category;
 
-      $category_id = get_category_by_slug($categories->parent->slug)->cat_ID;
-      if (isset($section_map[$category_id])) {
-        $ad_slot->section = $section_map[$category_id];
-      } else {
-        $ad_slot->section = "A DFP ID for this section has not been configured";
-      }
-
-    }
-
-    $ad_slot->contentType = $content_type;
-    $ad_slot->accountPrefix = get_field('advert_account_prefix', 'adverts-configuration');
-
-    if ($art_name_override) {
-      $ad_slot->art_name = $art_name_override;
-    } else {
-      $ad_slot->art_name = substr($post->slug, 0, 40);
-    }
-
-    $ad_slot->displayType = $display_type;
-    switch ($display_type) {
+    $ad_slot->position = $position;
+    $ad_slot->generic_type = $generic_type;
+    $ad_slot->devices = [];
+    switch ($ad_slot->generic_type) {
       case 'vertical':
-        $ad_slot->typeTag = '300x600';
+        $creative_sizes = new stdClass();
+        $creative_sizes->type = 'mobile';
+        $creative_sizes->creative_sizes = '300x600,300x250';
+        $ad_slot->devices[] = $creative_sizes;
 
-        $ad_slot->mobile = new stdClass();
-        $ad_slot->mobile->creativeSizes = [/*[300, 601], */[300, 251]];
-        $ad_slot->mobile->postfix = 'mobile';
+        $creative_sizes = new stdClass();
+        $creative_sizes->type = 'tablet';
+        $creative_sizes->creative_sizes = '300x600,300x250';
+        $ad_slot->devices[] = $creative_sizes;
 
-        $ad_slot->tablet = new stdClass();
-        $ad_slot->tablet->creativeSizes = [[300, 602], [300, 252]];
-        $ad_slot->tablet->postfix = [1, 2, 'infinite'];
-
-        $ad_slot->desktop = new stdClass();
-        $ad_slot->desktop->creativeSizes = [[300, 600], [300, 250]];
-        $ad_slot->desktop->postfix = [1, 2, 'infinite'];
+        $creative_sizes = new stdClass();
+        $creative_sizes->type = 'desktop';
+        $creative_sizes->creative_sizes = '300x600,300x250';
+        $ad_slot->devices[] = $creative_sizes;
         break;
       case 'horizontal':
-        $ad_slot->typeTag = '970x250';
-        $ad_slot->mobile = new stdClass();
-        $ad_slot->mobile->creativeSizes = [[320, 50]];
-        $ad_slot->mobile->postfix = ['1A', 2, 'infinite'];
+        $creative_sizes = new stdClass();
+        $creative_sizes->type = 'mobile';
+        $creative_sizes->creative_sizes = '320x50';
+        $ad_slot->devices[] = $creative_sizes;
 
-        $ad_slot->tablet = new stdClass();
-        $ad_slot->tablet->creativeSizes = [[728, 91], [728, 250]];
-        $ad_slot->tablet->postfix = ['1A', 2, 'infinite'];
+        $creative_sizes = new stdClass();
+        $creative_sizes->type = 'tablet';
+        $creative_sizes->creative_sizes = '728x90,728x250';
+        $ad_slot->devices[] = $creative_sizes;
 
-        $ad_slot->desktop = new stdClass();
-        $ad_slot->desktop->creativeSizes = [[970, 250], [970, 90], [728, 90]];
-        $ad_slot->desktop->postfix = ['1A', 2, 'infinite'];
+        $creative_sizes = new stdClass();
+        $creative_sizes->type = 'desktop';
+        $creative_sizes->creative_sizes = '970x250,970x90,728x90';
+        $ad_slot->devices[] = $creative_sizes;
         break;
-      case 'SkinL':
-        $ad_slot->typeTag = 'SkinL';
-        $ad_slot->desktop = new stdClass();
-        $ad_slot->desktop->creativeSizes = [[2, 1], [312, 900]];
-        $ad_slot->desktop->postfix = [1];
-        break;
-      case 'SkinR':
-        $ad_slot->typeTag = 'SkinR';
-        $ad_slot->desktop = new stdClass();
-        $ad_slot->desktop->creativeSizes = [[2, 2], [312, 901]];
-        $ad_slot->desktop->postfix = [1];
+      case 'skin-l':
+      case 'skin-r':
+        $creative_sizes = new stdClass();
+        $creative_sizes->type = 'desktop';
+        $creative_sizes->creative_sizes = '300x900';
+        $ad_slot->devices[] = $creative_sizes;
         break;
       default:
-        throw new \Exception('Unknown advert widget $display_type: ' . $display_type);
+        throw new \Exception('Unknown ad slot generic_type: ' . $ad_slot->generic_type);
         break;
-    }
-
-    if ($post_fix_override) {
-      $ad_slot->postFixOverride = $post_fix_override;
     }
 
     return apply_filters('agreable_advert_slot_generator_filter', $ad_slot);

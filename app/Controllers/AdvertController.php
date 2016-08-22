@@ -16,7 +16,7 @@ class AdvertController {
     }
 
     $plugin_root = realpath(__DIR__ . '/../..');
-    $js_string = file_get_contents($plugin_root . '/resources/assets/dfp.js');
+    $js_string = file_get_contents($plugin_root . '/resources/assets/dct-dfp.js');
 
     echo view('@AgreableAdvertPlugin/advert.twig', [
       'post' => $post,

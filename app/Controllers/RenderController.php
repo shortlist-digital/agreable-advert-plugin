@@ -14,7 +14,7 @@ class RenderController {
      */
     $ns = Helper::get('agreable_namespace');
     $plugin_root = realpath(__DIR__ . '/../..');
-    $js_string = file_get_contents($plugin_root . '/resources/assets/dfp.js');
+    $js_string = file_get_contents($plugin_root . '/resources/assets/dct-dfp.js');
     echo view('@AgreableAdvertPlugin/files.twig', [
       'env' => getenv('WP_ENV'),
       'js_string' =>  $js_string,

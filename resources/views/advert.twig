@@ -11,30 +11,48 @@
         padding: 0;
         background: #ededed;
       }
-      .advert-container {
+      [rel='advert'] {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        width: 1000px;
+        height: 300px;
+      }
+      .mobile-only { display: block; background: red; }
+      .tablet-only { display: none; }
+      .desktop-only { display: none; }
+      @media screen and (min-width: 768px) {
+        .mobile-only { display: none;}
+        .tablet-only { display: block; background: blue;}
+        .desktop-only { display: none; }
+      }
+      @media screen and (min-width: 1024px) {
+        .mobile-only { display: none; }
+        .tablet-only { display: none; }
+        .desktop-only { display: block; background: yellow;}
       }
     </style>
   </head>
   <body>
-    {% set adSlotId = 'ad-' ~ random(100000000) %}
-    {% set advertData = advert_data(post, display_type, 'article', null, null, null, post_fix_override) %}
-    <div class='advert-container
-        advert-container--status-no-init
-        advert-container--type-{{ advertData.type }} js-module'
-        data-module='AdvertSlot'>
-      <div id='{{ adSlotId }}'></div>
-      <script class='advert-data' type='application/json' data-id='{{ adSlotId }}'>
-        {{ advertData | json_encode | raw}}
-      </script>
-    </div>
+    {% set advert_data = advert_data(post, display_type, 'top', null) %}
+
+    {% for device in advert_data.devices %}
+      <div class='{{device.type}}-only' rel='advert' data-targetting='pos=top' data-sizes='{{device.creative_sizes}}'></div>
+    {% endfor %}
 
     <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
     <script>
-      {{js_string|raw}}
+      {{js_string | raw}}
+    </script>
+    <script>
+$( document ).ready( function () {
+  dfp.collapsable = true;
+  dfp.network = '{{advert_data.network}}';
+  dfp.zone = '{{advert_data.zone}}';
+
+  dfp.enable();
+});
     </script>
   </body>
 </html>
