@@ -5,31 +5,46 @@ Wordpress Plugin built for Croissant stack using [Herbert](http://getherbert.com
 
 ---
 
-### Dependencies
+## Use within Twig
 
-* Croissant
-* Timber
-* Advanced Custom Fields
+Shortlist Media Wordpress Advert Plugin
+===============
 
----
+### Get advert data
 
-#### Fire plugin specific action whilst rendering (to enqueue styles/scripts within plugin)   
-* `/app/hooks/SLMPluginEnqueue.php`  
-Just before rendering the plugin template, the parent theme calls Wordpress `do_action('acf_{{name}}_enqueue')`. e.g. (using Timber):  
-`{% do action('slm_'~widget.acf_fc_layout~'_enqueue', widget) %}`  
-The hook name is constructed from the ACF Field Group 'name' in `widget-loader-acf.php`. e.g. 'agreable_advert-slot_enqueue'
+```
+<!-- Twig function -->
+{{ get_advert_data(post, 'horizontal', [{'pos': 'top'}]) }}
 
-#### Configurable plugin options for Wordpress installation 
-* `app/panels.php`  
-Adds Settings panel for installation specific configuration. Uses ACF definitions.
+<!-- Outputs -->
+{
+  'type': 'horizontal',
+  'targetting': [{'pos': 'top'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[970, 250], [728, 90]]
+    }, 
+    'tablet': {
+      'creative-sizes': [[728, 90]]
+    }, 
+    'mobile': {
+      'creative-sizes': [[320, 50]]
+    }
+  }
+}
+```
 
-#### Deploy to packagist
+### Get advert HTML
 
-Check the current latest tag
-`git fetch && git tag`
+```
+<!-- Twig function -->
+{{ get_advert_html(post, 'horizontal', [{'pos': 'top'}]) }}
 
-Bump the version appropriately and tag
-`git tag x.x.x`
+<!-- Outputs -->
 
-Push to Github. Packagist will receive a hook and update the file
-`git push origin master --tags`
+<div data-module='AdvertSlot' data-advert-id='a876sd7f65sd76f'>
+  <script type='application/json'>
+    { ...advert object } 
+  </script>
+</div>
+```
