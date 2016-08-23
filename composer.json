@@ -4,7 +4,8 @@
   "description": "A tres agreable Adverts plugin for Croissant compatible sites",
   "license": "MIT",
   "require": {
-    "getherbert/framework": "~0.9"
+    "getherbert/framework": "~0.9",
+    "symfony/yaml": "3.1.*"
   },
   "config": {
     "preferred-install": "dist"

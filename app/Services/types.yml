@@ -1,0 +1,44 @@
+horizontal:
+  key-values:
+    - pos: top|1|2
+  creative-sizes:
+    desktop:
+      - [970, 250]
+      - [728, 250]
+      - [728, 90]
+    tablet:
+      - [728, 250]
+      - [728, 90]
+    mobile:
+      - [320, 50]
+vertical:
+  key-values:
+    - pos: top|1|2
+  creative-sizes:
+    desktop:
+      - [300, 600]
+      - [300, 250]
+    tablet:
+      - [300, 600]
+      - [300, 250]
+    mobile:
+      - [300, 250]
+skin:
+  key-values:
+    - pos: skin
+    - pos: l|r
+  creative-sizes:
+    desktop:
+      - [300, 900]
+article:
+  key-values:
+    - pos: article
+  creative-sizes:
+    desktop:
+      - [300, 600]
+      - [300, 250]
+    tablet:
+      - [300, 600]
+      - [300, 250]
+    mobile:
+      - [300, 250]
