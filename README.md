@@ -5,31 +5,158 @@ Wordpress Plugin built for Croissant stack using [Herbert](http://getherbert.com
 
 ---
 
-### Dependencies
+## Use within Twig
 
-* Croissant
-* Timber
-* Advanced Custom Fields
+### Get advert HTML
 
----
+```
+<!-- Twig function -->
+{{ get_advert_html(post, 'horizontal', [{'pos': 'top'}]) }}
 
-#### Fire plugin specific action whilst rendering (to enqueue styles/scripts within plugin)   
-* `/app/hooks/SLMPluginEnqueue.php`  
-Just before rendering the plugin template, the parent theme calls Wordpress `do_action('acf_{{name}}_enqueue')`. e.g. (using Timber):  
-`{% do action('slm_'~widget.acf_fc_layout~'_enqueue', widget) %}`  
-The hook name is constructed from the ACF Field Group 'name' in `widget-loader-acf.php`. e.g. 'agreable_advert-slot_enqueue'
+<!-- Outputs -->
 
-#### Configurable plugin options for Wordpress installation 
-* `app/panels.php`  
-Adds Settings panel for installation specific configuration. Uses ACF definitions.
+<div data-module='AdvertSlot' data-advert-id='a876sd7f65sd76f'>
+  <script type='application/json'>
+    { ...advert object } 
+  </script>
+</div>
+```
 
-#### Deploy to packagist
+### Get advert data
 
-Check the current latest tag
-`git fetch && git tag`
+```
+<!-- Twig function -->
+{{ get_advert_data(post, 'horizontal', [{'pos': 'top'}]) }}
 
-Bump the version appropriately and tag
-`git tag x.x.x`
+<!-- Outputs -->
+{
+  'type': 'horizontal',
+  'key-values': [{'pos': 'top'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[970, 250], [728, 90]]
+    }, 
+    'tablet': {
+      'creative-sizes': [[728, 90]]
+    }, 
+    'mobile': {
+      'creative-sizes': [[320, 50]]
+    }
+  }
+}
+```
 
-Push to Github. Packagist will receive a hook and update the file
-`git push origin master --tags`
+## Use within PHP
+
+```
+$advert_data = AgreableAdvertPlugin\Services\AdvertSlotGenerator::get_advert_data($post, 'horizontal', ['pos' => 'top']);
+var_dump($advert_data);
+// Outputs
+{
+  'type': 'horizontal',
+  'key-values': [{'pos': 'top'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[970, 250], [728, 90]]
+    }, 
+    'tablet': {
+      'creative-sizes': [[728, 90]]
+    }, 
+    'mobile': {
+      'creative-sizes': [[320, 50]]
+    }
+  }
+}
+```
+
+## API routes
+
+Get a single advert, rendered as HTML, complete with container CSS and JS to load (for Instant Articles):
+
+```
+/advert/{post_id}/{post_type}/{key_values}
+/advert/2074/horizontal/pos=top,another_key=value
+```
+
+## Ad type
+
+### Horizontal
+
+* Billboard 970x250
+* Leaderboard 728x90
+* Mobile banner
+
+```
+{
+  'type': 'horizontal',
+  'key-values': [{'pos': 'top|2'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[970, 250], [728, 90]]
+    }, 
+    'tablet': {
+      'creative-sizes': [[728, 90]]
+    }, 
+    'mobile': {
+      'creative-sizes': [[320, 50]]
+    }
+  }
+}
+```
+
+### Vertical
+
+* HPU 300x600
+* MPU 300x250
+
+```
+{
+  'type': 'horizontal',
+  'key-values': [{'pos': 'top|2'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[300, 600], [300, 250]]
+    }, 
+    'tablet': {
+      'creative-sizes': [[300, 600], [300, 250]]
+    }, 
+    'mobile': {
+      'creative-sizes': [[300, 250]]
+    }
+  }
+}
+```
+
+### In-Article
+
+```
+{
+  'type': 'in-article (tbc)',
+  'key-values': [{'pos': 'top|2'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[300, 600], [300, 250]]
+    }, 
+    'tablet': {
+      'creative-sizes': [[300, 600], [300, 250]]
+    }, 
+    'mobile': {
+      'creative-sizes': [[300, 250]]
+    }
+  }
+}
+```
+
+### Skin
+
+```
+{
+  'type': 'skin',
+  'key-values': [{'pos': 'skin', 'pos': 'l|r'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[300, 900]]
+    }
+  }
+}
+```
