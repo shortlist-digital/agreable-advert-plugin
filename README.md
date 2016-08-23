@@ -7,6 +7,21 @@ Wordpress Plugin built for Croissant stack using [Herbert](http://getherbert.com
 
 ## Use within Twig
 
+### Get advert HTML
+
+```
+<!-- Twig function -->
+{{ get_advert_html(post, 'horizontal', [{'pos': 'top'}]) }}
+
+<!-- Outputs -->
+
+<div data-module='AdvertSlot' data-advert-id='a876sd7f65sd76f'>
+  <script type='application/json'>
+    { ...advert object } 
+  </script>
+</div>
+```
+
 ### Get advert data
 
 ```
@@ -29,21 +44,6 @@ Wordpress Plugin built for Croissant stack using [Herbert](http://getherbert.com
     }
   }
 }
-```
-
-### Get advert HTML
-
-```
-<!-- Twig function -->
-{{ get_advert_html(post, 'horizontal', [{'pos': 'top'}]) }}
-
-<!-- Outputs -->
-
-<div data-module='AdvertSlot' data-advert-id='a876sd7f65sd76f'>
-  <script type='application/json'>
-    { ...advert object } 
-  </script>
-</div>
 ```
 
 ## Use within PHP
