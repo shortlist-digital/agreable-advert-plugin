@@ -31,7 +31,7 @@ Wordpress Plugin built for Croissant stack using [Herbert](http://getherbert.com
 <!-- Outputs -->
 {
   'type': 'horizontal',
-  'targetting': [{'pos': 'top'}],
+  'key-values': [{'pos': 'top'}],
   'devices': {
     'desktop': {
       'creative-sizes': [[970, 250], [728, 90]]
@@ -54,7 +54,7 @@ var_dump($advert_data);
 // Outputs
 {
   'type': 'horizontal',
-  'targetting': [{'pos': 'top'}],
+  'key-values': [{'pos': 'top'}],
   'devices': {
     'desktop': {
       'creative-sizes': [[970, 250], [728, 90]]
@@ -89,7 +89,7 @@ Get a single advert, rendered as HTML, complete with container CSS and JS to loa
 ```
 {
   'type': 'horizontal',
-  'targetting': [{'pos': 'top|2'}],
+  'key-values': [{'pos': 'top|2'}],
   'devices': {
     'desktop': {
       'creative-sizes': [[970, 250], [728, 90]]
@@ -112,7 +112,7 @@ Get a single advert, rendered as HTML, complete with container CSS and JS to loa
 ```
 {
   'type': 'horizontal',
-  'targetting': [{'pos': 'top|2'}],
+  'key-values': [{'pos': 'top|2'}],
   'devices': {
     'desktop': {
       'creative-sizes': [[300, 600], [300, 250]]
@@ -132,7 +132,7 @@ Get a single advert, rendered as HTML, complete with container CSS and JS to loa
 ```
 {
   'type': 'in-article (tbc)',
-  'targetting': [{'pos': 'top|2'}],
+  'key-values': [{'pos': 'top|2'}],
   'devices': {
     'desktop': {
       'creative-sizes': [[300, 600], [300, 250]]
@@ -152,7 +152,7 @@ Get a single advert, rendered as HTML, complete with container CSS and JS to loa
 ```
 {
   'type': 'skin',
-  'targetting': [{'pos': 'skin', 'pos': 'l|r'}],
+  'key-values': [{'pos': 'skin', 'pos': 'l|r'}],
   'devices': {
     'desktop': {
       'creative-sizes': [[300, 900]]
