@@ -74,5 +74,89 @@ var_dump($advert_data);
 Get a single advert, rendered as HTML, complete with container CSS and JS to load (for Instant Articles):
 
 ```
+/advert/{post_id}/{post_type}/{key_values}
 /advert/2074/horizontal/pos=top,another_key=value
+```
+
+## Ad type
+
+### Horizontal
+
+* Billboard 970x250
+* Leaderboard 728x90
+* Mobile banner
+
+```
+{
+  'type': 'horizontal',
+  'targetting': [{'pos': 'top|2'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[970, 250], [728, 90]]
+    }, 
+    'tablet': {
+      'creative-sizes': [[728, 90]]
+    }, 
+    'mobile': {
+      'creative-sizes': [[320, 50]]
+    }
+  }
+}
+```
+
+### Vertical
+
+* HPU 300x600
+* MPU 300x250
+
+```
+{
+  'type': 'horizontal',
+  'targetting': [{'pos': 'top|2'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[300, 600], [300, 250]]
+    }, 
+    'tablet': {
+      'creative-sizes': [[300, 600], [300, 250]]
+    }, 
+    'mobile': {
+      'creative-sizes': [[300, 250]]
+    }
+  }
+}
+```
+
+### In-Article
+
+```
+{
+  'type': 'in-article (tbc)',
+  'targetting': [{'pos': 'top|2'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[300, 600], [300, 250]]
+    }, 
+    'tablet': {
+      'creative-sizes': [[300, 600], [300, 250]]
+    }, 
+    'mobile': {
+      'creative-sizes': [[300, 250]]
+    }
+  }
+}
+```
+
+### Skin
+
+```
+{
+  'type': 'skin',
+  'targetting': [{'pos': 'skin', 'pos': 'l|r'}],
+  'devices': {
+    'desktop': {
+      'creative-sizes': [[300, 900]]
+    }
+  }
+}
 ```
