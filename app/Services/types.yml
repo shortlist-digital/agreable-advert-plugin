@@ -1,7 +1,7 @@
 horizontal:
-  key-values:
+  key_values:
     - pos: top|1|2
-  creative-sizes:
+  creative_sizes:
     desktop:
       - [970, 250]
       - [728, 250]
@@ -12,9 +12,9 @@ horizontal:
     mobile:
       - [320, 50]
 vertical:
-  key-values:
+  key_values:
     - pos: top|1|2
-  creative-sizes:
+  creative_sizes:
     desktop:
       - [300, 600]
       - [300, 250]
@@ -24,16 +24,16 @@ vertical:
     mobile:
       - [300, 250]
 skin:
-  key-values:
+  key_values:
     - pos: skin
     - pos: l|r
-  creative-sizes:
+  creative_sizes:
     desktop:
       - [300, 900]
 article:
-  key-values:
+  key_values:
     - pos: article
-  creative-sizes:
+  creative_sizes:
     desktop:
       - [300, 600]
       - [300, 250]

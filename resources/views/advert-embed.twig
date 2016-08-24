@@ -33,11 +33,7 @@
     </style>
   </head>
   <body>
-    {% set advert_data = advert_data(post, display_type, 'top', null) %}
-
-    {% for device in advert_data.devices %}
-      <div class='{{device.type}}-only' rel='advert' data-targetting='pos=top' data-sizes='{{device.creative_sizes}}'></div>
-    {% endfor %}
+    {{ get_advert_html(post, display_type, key_values) }}
 
     <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
     <script>

@@ -4,12 +4,15 @@ namespace AgreableAdvertPlugin\Services;
 use \AgreableCategoryService;
 use \stdClass;
 use \Symfony\Component\Yaml\Yaml;
+use Exception;
 
 class AdvertSlotTypes {
   public static function get($type_name) {
-    $value = Yaml::parse(file_get_contents(__DIR__ . '/types.yml'));
-    var_dump(376478647823, $value);
-    exit;
-    return apply_filters('agreable_advert_slot_types_get_filter', $type);
+    $types = Yaml::parse(file_get_contents(__DIR__ . '/types.yml'));
+    if (!isset($types[$type_name])) {
+      throw new Exception('Unknown advert type: "' . $type_name . '"');
+    }
+
+    return apply_filters('agreable_advert_slot_types_get_filter', $types[$type_name]);
   }
 }
