@@ -55,7 +55,7 @@ class AdvertSlotGenerator {
         $ad_slot->typeTag = '300x600';
 
         $ad_slot->mobile = new stdClass();
-        $ad_slot->mobile->creativeSizes = [/*[300, 601], */[300, 251]];
+        $ad_slot->mobile->creativeSizes = [[300, 601], [300, 251]];
         $ad_slot->mobile->postfix = 'mobile';
 
         $ad_slot->tablet = new stdClass();
