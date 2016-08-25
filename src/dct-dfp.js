@@ -1,3 +1,19 @@
+var Backbone = require('backbone')
+var $ = require('jquery')
+
+class DctDfp extends Backbone.View {
+
+  constructor (param) {
+    super()
+    console.log('DCT JS code')
+    this.setupDctDfpCode()
+  }
+
+  setupDctDfpCode () {
+
+/**
+ * BEGIN: DCT DFP code verbatim (non-modular)
+ */
 
 /**
  * DFP.js 1.5.0
@@ -268,4 +284,14 @@ googletag.cmd = googletag.cmd || [];
     };
 
     window.dfp = dfp;
-} )( jQuery );
+} )( $ );
+
+/**
+ * END: DCT DFP code verbatim
+ */
+
+  }
+
+}
+
+module.exports = DctDfp

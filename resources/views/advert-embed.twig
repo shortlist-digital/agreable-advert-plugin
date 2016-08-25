@@ -33,20 +33,16 @@
     </style>
   </head>
   <body>
-    {{ get_advert_html(post, display_type, key_values) }}
 
-    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
-    <script>
-      {{js_string | raw}}
-    </script>
-    <script>
-$(document).ready( function () {
-  dfp.collapsable = true;
-  dfp.network = '{{advert_data.network}}';
-  dfp.zone = '{{advert_data.zone}}';
+    {{ set advert_data = get_advert_html(post, display_type, key_values) }}
 
-  dfp.enable();
-});
+    <script>
+window.agreableAdvert = {
+  network: '{{advert_data.network}}',
+  zone = '{{advert_data.zone}}'
+}
     </script>
+
+    {{ advert_plugin.js_string | raw }}
   </body>
 </html>
