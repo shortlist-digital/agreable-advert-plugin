@@ -11,37 +11,37 @@
         padding: 0;
         background: #ededed;
       }
-      [rel='advert'] {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+      [rel="advert"] {
+        text-align: center;
+        width: 100%;
       }
-      .mobile-only { display: block;}
+
+      .mobile-only { display: inline-block;}
       .tablet-only { display: none;}
       .desktop-only { display: none;}
       @media screen and (min-width: 768px) {
         .mobile-only { display: none;}
-        .tablet-only { display: block;}
+        .tablet-only { display: inline-block;}
         .desktop-only { display: none;}
       }
       @media screen and (min-width: 1024px) {
         .mobile-only { display: none;}
         .tablet-only { display: none;}
-        .desktop-only { display: block;}
+        .desktop-only { display: inline-block;}
       }
     </style>
   </head>
   <body>
 
-    {{ set advert_data = get_advert_html(post, display_type, key_values) }}
-
+    {% set advert_data = get_advert_data(post, display_type, key_values) %}
     <script>
 window.agreableAdvert = {
   network: '{{advert_data.network}}',
-  zone = '{{advert_data.zone}}'
+  zone: '{{advert_data.zone}}'
 }
     </script>
+
+    {{ get_advert_html(post, display_type, key_values) }}
 
     {{ advert_plugin.js_string | raw }}
   </body>
