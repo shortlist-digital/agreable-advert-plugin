@@ -12,7 +12,8 @@ class AdvertSlotTypes {
     if (!isset($types[$type_name])) {
       throw new Exception('Unknown advert type: "' . $type_name . '"');
     }
-
-    return apply_filters('agreable_advert_slot_types_get_filter', $types[$type_name]);
+    $type = $types[$type_name];
+    $type['display_type'] = $type_name;
+    return apply_filters('agreable_advert_slot_types_get_filter', $type);
   }
 }

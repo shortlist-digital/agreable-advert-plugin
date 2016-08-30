@@ -23,10 +23,17 @@ vertical:
       - [300, 250]
     mobile:
       - [300, 250]
-skin:
+skin_l:
   key_values:
     - pos: skin
-    - pos: l|r
+    - pos: l
+  creative_sizes:
+    desktop:
+      - [300, 900]
+skin_r:
+  key_values:
+    - pos: skin
+    - pos: r
   creative_sizes:
     desktop:
       - [300, 900]

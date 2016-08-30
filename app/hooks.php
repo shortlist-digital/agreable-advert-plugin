@@ -3,6 +3,7 @@
 /** @var  \Herbert\Framework\Application $container */
 
 use AgreableAdvertPlugin\Hooks\TimberTwig;
-use AgreableAdvertPlugin\CustomFields\Category;
+use AgreableAdvertPlugin\Hooks\DfpZone;
 
 (new TimberTwig)->init();
+(new DfpZone)->init();

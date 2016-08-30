@@ -46,7 +46,7 @@ class TimberTwig {
     }
 
     $javascript_string .= '<script>' . file_get_contents($plugin_root .
-        '/resources/assets/dct-dfp.js') . '</script>';
+      '/resources/assets/dct-dfp.js') . '</script>';
 
     return $javascript_string;
   }
