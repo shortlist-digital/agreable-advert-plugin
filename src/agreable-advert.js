@@ -38,6 +38,12 @@ class AgreableAdvert {
     dfp.collapsable = true;
     dfp.network = window.agreableAdvert.network;
     dfp.zone = window.agreableAdvert.zone;
+
+    if (typeof window.agreableAdvert.targeting_all === undefined) {
+      console.warn('agreablt-advert: No targetting_all defined')
+    } else {
+      dfp.targeting_all = window.agreableAdvert.targeting_all
+    }
   }
 
   searchForAdvertSlots() {

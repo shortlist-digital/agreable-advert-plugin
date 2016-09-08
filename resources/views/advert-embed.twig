@@ -15,14 +15,9 @@
   </head>
   <body>
 
-    {% set advert_data = get_advert_data(post, display_type, key_values) %}
-    <script>
-window.agreableAdvert = {
-  network: '{{advert_data.network}}',
-  zone: '{{advert_data.zone}}'
-}
-    </script>
+    {{ get_setup_html(post) }}
 
+    {% set advert_data = get_advert_data(post, display_type, key_values) %}
     {{ get_advert_html(post, display_type, key_values) }}
 
     {{ advert_plugin.js_string | raw }}

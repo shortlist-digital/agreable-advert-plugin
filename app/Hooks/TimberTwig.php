@@ -21,6 +21,10 @@ class TimberTwig {
       new Twig_SimpleFunction('get_advert_html',
         array('AgreableAdvertPlugin\Services\AdvertSlotGenerator', 'get_advert_html')));
 
+    $twig->addFunction(
+      new Twig_SimpleFunction('get_setup_html',
+        array('AgreableAdvertPlugin\Services\AdvertSlotGenerator', 'get_setup_html')));
+
     return $twig;
   }
 
