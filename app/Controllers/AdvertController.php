@@ -19,9 +19,11 @@ class AdvertController {
     $context['post'] = $post;
     $context['display_type'] = $display_type;
 
-    $key_values = $this->map_key_values_to_array($key_values);
+    if (is_string($key_values) && $key_values != '') {
+      $key_values = $this->map_key_values_to_array($key_values);
 
-    $context['key_values'] = $key_values;
+      $context['key_values'] = $key_values;
+    }
 
     Timber::render('@AgreableAdvertPlugin/advert-embed.twig', $context, false);
   }

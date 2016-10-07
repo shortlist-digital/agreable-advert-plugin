@@ -7,3 +7,9 @@ $router->get([
   'uri'  => '/advert/{post_id}/{display_type}/{key_values}',
   'uses' => __NAMESPACE__ . '\Controllers\AdvertController@view'
 ]);
+
+$router->get([
+  'as'   => 'advertView',
+  'uri'  => '/advert/{post_id}/{display_type}',
+  'uses' => __NAMESPACE__ . '\Controllers\AdvertController@view'
+]);
