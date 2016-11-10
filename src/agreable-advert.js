@@ -36,14 +36,34 @@ class AgreableAdvert {
       throw Error('window.agreableAdvert is not set');
     }
     dfp.collapsable = true;
-    dfp.network = window.agreableAdvert.network;
-    dfp.zone = window.agreableAdvert.zone;
+
+    this.setNetworkAndZone()
 
     if (typeof window.agreableAdvert.targeting_all === undefined) {
       console.warn('agreablt-advert: No targetting_all defined')
     } else {
       dfp.targeting_all = window.agreableAdvert.targeting_all
     }
+  }
+
+  setNetworkAndZone() {
+
+    // Check overrides of Network and Zone
+    const getParams = {}
+    location.search.substr(1).split('&').forEach(
+      (item) => getParams[item.split('=')[0]] = item.split('=')[1]
+    )
+
+    dfp.network = getParams.network ?
+      getParams.network : window.agreableAdvert.network;
+
+    // Short cut for pointing to Clock's ad network for debugging
+    if (dfp.network === 'clock') {
+      dfp.network = '65519446'
+    }
+
+    dfp.zone = getParams.zone ?
+      getParams.zone : window.agreableAdvert.zone;
   }
 
   searchForAdvertSlots() {
