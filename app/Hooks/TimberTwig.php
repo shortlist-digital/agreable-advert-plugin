@@ -46,7 +46,7 @@ class TimberTwig {
       $javascript_string .= "<script src='http://localhost:$port_number/static/app.js'></script>";
     } else {
       $javascript_string .= '<script>' . file_get_contents($plugin_root .
-        '/../resources/assets/app.js') . '</script>';
+        '/resources/assets/app.js') . '</script>';
     }
 
     $javascript_string .= '<script>' . file_get_contents($plugin_root .
