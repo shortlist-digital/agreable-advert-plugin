@@ -41,12 +41,12 @@ class AdvertSlotGenerator {
     return apply_filters('agreable_advert_slot_generator_filter', $advert);
   }
 
-  public static function get_setup_html($post = null) {
+  public static function get_adverts_page_setup_html($post = null) {
     if (!$post) {
       return '<script>console.warn("No category found, unable to load adverts")</script>';
     }
 
-    $data = self::get_setup_data($post);
+    $data = self::get_adverts_page_setup_data($post);
 
     $out = '<script>';
 
@@ -58,7 +58,7 @@ class AdvertSlotGenerator {
     return $out;
   }
 
-  public static function get_setup_data($post) {
+  public static function get_adverts_page_setup_data($post) {
 
     $data = new stdClass();
     $data->network = get_field('advert_account_network', 'adverts-configuration');

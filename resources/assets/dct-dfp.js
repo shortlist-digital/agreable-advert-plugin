@@ -22,8 +22,8 @@
  * THE SOFTWARE.
  */
 
-var googletag = googletag || {};
-googletag.cmd = googletag.cmd || [];
+window.googletag = window.googletag || {};
+window.googletag.cmd = window.googletag.cmd || [];
 
 ( function ( $ ) {
     /**
@@ -62,16 +62,16 @@ googletag.cmd = googletag.cmd || [];
                 var advert = null;
 
                 if ( 'yes' === $this.data( 'oop' ) ) {
-                    advert = googletag.defineOutOfPageSlot( dfp.network + dfp.zone, id );
+                    advert = window.googletag.defineOutOfPageSlot( dfp.network + dfp.zone, id );
                 }
                 else {
-                    advert = googletag.defineSlot( dfp.network + dfp.zone, dfp.getSizes( $this.data( 'sizes' ) ), id );
+                    advert = window.googletag.defineSlot( dfp.network + dfp.zone, dfp.getSizes( $this.data( 'sizes' ) ), id );
                 }
 
                 dfp.setTargetingSingle( $this.data( 'targeting' ), advert );
                 dfp.setCompanionSingle( $this.data( 'companion' ), advert );
 
-                advert.addService( googletag.pubads() );
+                advert.addService( window.googletag.pubads() );
 
                 dfp.ad_slots[id] = advert;
             });
@@ -101,12 +101,12 @@ googletag.cmd = googletag.cmd || [];
         },
         setCompanionSingle : function ( companion_definition, advert ) {
             if ( companion_definition && companion_definition === 'yes' ) {
-                advert.addService( googletag.companionAds() );
+                advert.addService( window.googletag.companionAds() );
             }
         },
         setTargetingAll : function () {
             for ( var i = 0; i < dfp.targeting_all.length; ++i ) {
-                googletag.pubads().setTargeting( dfp.targeting_all[i].key, dfp.targeting_all[i].value );
+                window.googletag.pubads().setTargeting( dfp.targeting_all[i].key, dfp.targeting_all[i].value );
             }
         },
         setTargetingSingle : function ( target_definition, advert ) {
@@ -133,7 +133,7 @@ googletag.cmd = googletag.cmd || [];
                 ad_slots.push( dfp.ad_slots[ad_slot_ids[i]] );
             }
 
-            googletag.pubads().refresh( ad_slots );
+            window.googletag.pubads().refresh( ad_slots );
         },
         display : function () {
             var return_val = [];
@@ -142,8 +142,8 @@ googletag.cmd = googletag.cmd || [];
                 var $this = $( this );
                 var ad_id = $this.attr( 'id' );
 
-                googletag.cmd.push( function () {
-                    googletag.display( ad_id );
+                window.googletag.cmd.push( function () {
+                    window.googletag.display( ad_id );
                 } );
 
                 $this.attr( 'data-ad-complete', 'yes' );
@@ -153,24 +153,24 @@ googletag.cmd = googletag.cmd || [];
             return return_val;
         },
         enable : function () {
-            googletag.cmd.push( function () {
+            window.googletag.cmd.push( function () {
                 dfp.defineSlots();
                 dfp.setTargetingAll();
 
-                googletag.pubads().enableAsyncRendering();
+                window.googletag.pubads().enableAsyncRendering();
 
                 /**
                  * Whilst it does not state it anyway (that I can find), "Single Request"
                  * is a pre-requisite for Companion Ads.
                  */
-                googletag.pubads().enableSingleRequest();
+                window.googletag.pubads().enableSingleRequest();
 
                 /**
                  * Hooking event logic so developers can do post ad rendering logic.
                  *
-                 * https://developers.google.com/doubleclick-gpt/reference#googletag.Service_addEventListener
+                 * https://developers.google.com/doubleclick-gpt/reference#window.googletag.Service_addEventListener
                  */
-                googletag.pubads().addEventListener( 'slotRenderEnded', function( slot_data ) {
+                window.googletag.pubads().addEventListener( 'slotRenderEnded', function( slot_data ) {
                     dfp.ad_slots_processed++;
 
           if ( slot_data.isEmpty ) {
@@ -239,17 +239,17 @@ googletag.cmd = googletag.cmd || [];
                  * the ad tag so that the rest of the elements move into it's place.  This
                  * is instead of leaving a "hole" on the page.
                  */
-                googletag.pubads().collapseEmptyDivs( dfp.collapsable );
-                googletag.enableServices();
+                window.googletag.pubads().collapseEmptyDivs( dfp.collapsable );
+                window.googletag.enableServices();
 
                 dfp.display();
             } );
         },
         refresh : function ( id ) {
-            window.googletag.pubads().refresh( [dfp.ad_slots[id]] );
+            window.window.googletag.pubads().refresh( [dfp.ad_slots[id]] );
         },
         refreshAll : function () {
-            googletag.pubads().refresh();
+            window.googletag.pubads().refresh();
         },
         takeover : function ( data ) {
             var $body = $( 'body' );

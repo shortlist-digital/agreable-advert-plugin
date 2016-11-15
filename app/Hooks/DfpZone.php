@@ -13,6 +13,6 @@ class DfpZone {
   public function add_dfp_zone() {
     global $post;
 
-    echo AdvertSlotGenerator::get_setup_html($post);
+    echo AdvertSlotGenerator::get_adverts_page_setup_html($post);
   }
 }

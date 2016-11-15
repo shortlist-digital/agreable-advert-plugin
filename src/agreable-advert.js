@@ -1,4 +1,5 @@
 require('./stylus/main.styl')
+require('resources/assets/dct-dfp')
 
 require('es6-object-assign').polyfill()
 var $ = require('jquery')
@@ -40,7 +41,7 @@ class AgreableAdvert {
     this.setNetworkAndZone()
 
     if (typeof window.agreableAdvert.targeting_all === undefined) {
-      console.warn('agreablt-advert: No targetting_all defined')
+      console.warn('agreable-advert: No targetting_all defined')
     } else {
       dfp.targeting_all = window.agreableAdvert.targeting_all
     }
@@ -75,6 +76,7 @@ class AgreableAdvert {
       this.setupAdvertSlot($adSlot)
     }.bind(this))
 
+    console.log('agreable-advert: dfp.enable()')
     dfp.enable()
 
     this.checkAdSlotsAreInView()
@@ -116,7 +118,7 @@ class AgreableAdvert {
   }
 
   checkAdSlotsAreInView() {
-
+    // As yet unimplemented
   }
 
 

@@ -1,6 +1,6 @@
 horizontal:
   key_values:
-    - pos: top|1|2
+    - pos: top|1|2 #example options
   creative_sizes:
     desktop:
       - [970, 250]
