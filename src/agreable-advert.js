@@ -6,13 +6,10 @@ var $ = require('jquery')
 window.$ = $
 var dfpLoaded = false
 
-import DOMReady from 'detect-dom-ready'
-
 class AgreableAdvert {
 
   constructor (param) {
-    console.log('Welcome to module AgreableAdvert')
-    DOMReady(function () {
+    $(function() {
       console.log('agreable-advert: Init')
 
       this.listenForDfpToLoad()
