@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #ededed;
+      }
+    </style>
+  </head>
+  <body>
+
+    {{ get_adverts_page_setup_html(post) }}
+
+    {% set advert_data = get_advert_data(post, display_type, key_values) %}
+    {{ get_advert_html(post, display_type, key_values) }}
+
+    {% include 'js-css-resources/template.twig' %}
+  </body>
+</html>

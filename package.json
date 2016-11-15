@@ -1,0 +1,58 @@
+{
+  "name": "agreable-advert-plugin",
+  "version": "0.1.0",
+  "description": "Shortlist Media Product Plugin",
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "npm install && npm run live-compile",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack --watch --debug",
+    "webpack-production": "webpack -p",
+    "live-compile": "node dev-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:shortlist-digital/agreable-advert-plugin.git"
+  },
+  "author": "Shortlist Media",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "*",
+    "babel-core": "^5.8.24",
+    "babel-loader": "^5.3.3",
+    "css-loader": "~0.9.1",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "get-port": "^1.0.0",
+    "jscs": "^2.1.1",
+    "jscs-loader": "^0.2.0",
+    "json-loader": "^0.5.2",
+    "nib": "~1.1.0",
+    "react-hot-loader": "^1.3.0",
+    "redux-devtools": "^2.1.2",
+    "style-loader": "~0.9.0",
+    "stylus-loader": "~1.0.0",
+    "webpack": "^1.12.1",
+    "webpack-dev-server": "^1.10.1"
+  },
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "check-email-valid": "^1.0.0",
+    "classnames": "^2.1.3",
+    "detect-dom-ready": "^1.0.2",
+    "entities": "^1.1.1",
+    "es6-object-assign": "^1.0.1",
+    "moment": "^2.10.6",
+    "jquery": "~2.1.3",
+    "postcode": "^0.2.3",
+    "postcode-validator": "^1.2.0",
+    "raw-loader": "^0.5.1",
+    "react": "^0.13.3",
+    "react-measure": "^0.1.3",
+    "react-modal": "^0.5.0",
+    "react-motion-ui-pack": "^0.4.2",
+    "react-redux": "^2.1.2",
+    "redux": "^3.0.0",
+    "redux-analytics": "^0.3.0",
+    "timeago": "^0.2.0"
+  }
+}

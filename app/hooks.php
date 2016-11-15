@@ -3,8 +3,7 @@
 /** @var  \Herbert\Framework\Application $container */
 
 use AgreableAdvertPlugin\Hooks\TimberTwig;
-use AgreableAdvertPlugin\Hooks\SLMPluginEnqueue;
-use AgreableAdvertPlugin\CustomFields\Category;
+use AgreableAdvertPlugin\Hooks\AdvertsPageSetup;
 
 (new TimberTwig)->init();
-(new SLMPluginEnqueue)->init();
+(new AdvertsPageSetup)->init();

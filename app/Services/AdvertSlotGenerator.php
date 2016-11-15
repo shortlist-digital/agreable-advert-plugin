@@ -5,102 +5,116 @@ require_once get_template_directory() . "/libs/services/CategoryService.php";
 
 use \AgreableCategoryService;
 use \stdClass;
+use \AgreableAdvertPlugin\Services\AdvertSlotTypes;
+use \Timber;
 
 class AdvertSlotGenerator {
-  public static function get_advert($post, $display_type, $content_type = 'article', $category_override = null, $art_name_override = null, $section_override = null, $post_fix_override = null) {
+
+  public static function get_advert_html($post, $display_type, $key_values = [],
+    $overrides = null) {
+
+    $context = Timber::get_context();
+    $context['post'] = $post;
+    $context['display_type'] = $display_type;
+    $context['key_values'] = $key_values;
+
+    Timber::render('@AgreableAdvertPlugin/advert-container.twig', $context, false);
+  }
+
+  public static function get_advert_data($post, $display_type, $key_values = [],
+    $overrides = null) {
+
     $categories = AgreableCategoryService::get_post_category_hierarchy($post);
 
-    $ad_slot = new stdClass();
+    $advert = AdvertSlotTypes::get($display_type);
 
-    if ($category_override) {
-      $ad_slot->category = $category_override;
+    if ($overrides && isset($overrides->category)) {
+      $advert['category'] = $overrides->category;
     } else if ($categories->parent->slug) {
-      $ad_slot->category = $categories->parent->slug;
+      $advert['category'] = $categories->parent->slug;
+    }
+    $advert['key_values'] = $key_values;
+    $advert['network'] = get_field('advert_account_network', 'adverts-configuration');
+    $advert['zone_prefix'] = get_field('advert_account_zone_prefix', 'adverts-configuration');
+    $advert['zone'] = $advert['zone_prefix'] . '/' . $advert['category'];
+
+    return apply_filters('agreable_advert_slot_generator_filter', $advert);
+  }
+
+  public static function get_adverts_page_setup_html($post = null) {
+    if (!$post) {
+      return '<script>console.warn("No category found, unable to load adverts")</script>';
     }
 
-    if ($categories->child) {
-      $ad_slot->sub_category = $categories->child->slug;
+    $data = self::get_adverts_page_setup_data($post);
+
+    $out = '<script>';
+
+    if (isset($data->zone)) {
+      $out .= 'window.agreableAdvert = ' . json_encode($data, JSON_UNESCAPED_SLASHES);
     }
 
-    if ($section_override) {
-      $ad_slot->section = $section_override;
+    $out .= '</script>';
+    return $out;
+  }
+
+  public static function get_adverts_page_setup_data($post) {
+
+    $data = new stdClass();
+    $data->network = get_field('advert_account_network', 'adverts-configuration');
+    $data->zone_prefix = get_field('advert_account_zone_prefix', 'adverts-configuration');
+
+    $categories = AgreableCategoryService::get_post_category_hierarchy($post);
+
+    if (isset($categories) && isset($categories->parent)) {
+      $data->zone = $data->zone_prefix . '/' . $categories->parent->slug;
+    }
+
+    $data->targeting_all = [];
+    if (isset($post->post_type)) {
+      $targetting = new stdClass();
+      $targetting->key = 'type';
+      $targetting->value = 'article';
+      $data->targeting_all[] = $targetting;
+
+      $targetting = new stdClass();
+      $targetting->key = 'is_article';
+      $targetting->value = 'yes';
+      $data->targeting_all[] = $targetting;
+    } else if (isset($post->object_type) && $post->object_type === 'term') {
+      $targetting = new stdClass();
+      $targetting->key = 'type';
+      $targetting->value = 'section';
+      $data->targeting_all[] = $targetting;
+
+      $targetting = new stdClass();
+      $targetting->key = 'is_article';
+      $targetting->value = 'no';
+      $data->targeting_all[] = $targetting;
     } else {
-      $category_map = get_field('category_dfp_id_map', 'adverts-configuration');
-      $section_map = [];
-      foreach($category_map as $category) {
-        $section_map[$category['category']] = $category['dfp_id'];
-      }
+      $targetting = new stdClass();
+      $targetting->key = 'type';
+      $targetting->value = 'unknown';
+      $data->targeting_all[] = $targetting;
 
-      $category_id = get_category_by_slug($categories->parent->slug)->cat_ID;
-      if (isset($section_map[$category_id])) {
-        $ad_slot->section = $section_map[$category_id];
-      } else {
-        $ad_slot->section = "A DFP ID for this section has not been configured";
-      }
-
+      $targetting = new stdClass();
+      $targetting->key = 'is_article';
+      $targetting->value = 'no';
+      $data->targeting_all[] = $targetting;
     }
 
-    $ad_slot->contentType = $content_type;
-    $ad_slot->accountPrefix = get_field('advert_account_prefix', 'adverts-configuration');
+    $targetting = new stdClass();
+    $targetting->key = 'post_id';
+    $targetting->value = $post->ID;
+    $data->targeting_all[] = $targetting;
 
-    if ($art_name_override) {
-      $ad_slot->art_name = $art_name_override;
-    } else {
-      $ad_slot->art_name = substr($post->slug, 0, 40);
+    if (isset($post->slug)) {
+      $targetting = new stdClass();
+      $targetting->key = 'post_slug';
+      $targetting->value = $post->slug;
+      $data->targeting_all[] = $targetting;
     }
 
-    $ad_slot->displayType = $display_type;
-    switch ($display_type) {
-      case 'vertical':
-        $ad_slot->typeTag = '300x600';
-
-        $ad_slot->mobile = new stdClass();
-        $ad_slot->mobile->creativeSizes = [[300, 601], [300, 251]];
-        $ad_slot->mobile->postfix = 'mobile';
-
-        $ad_slot->tablet = new stdClass();
-        $ad_slot->tablet->creativeSizes = [[300, 602], [300, 252]];
-        $ad_slot->tablet->postfix = [1, 2, 'infinite'];
-
-        $ad_slot->desktop = new stdClass();
-        $ad_slot->desktop->creativeSizes = [[300, 600], [300, 250]];
-        $ad_slot->desktop->postfix = [1, 2, 'infinite'];
-        break;
-      case 'horizontal':
-        $ad_slot->typeTag = '970x250';
-        $ad_slot->mobile = new stdClass();
-        $ad_slot->mobile->creativeSizes = [[320, 50]];
-        $ad_slot->mobile->postfix = ['1A', 2, 'infinite'];
-
-        $ad_slot->tablet = new stdClass();
-        $ad_slot->tablet->creativeSizes = [[728, 91], [728, 250]];
-        $ad_slot->tablet->postfix = ['1A', 2, 'infinite'];
-
-        $ad_slot->desktop = new stdClass();
-        $ad_slot->desktop->creativeSizes = [[970, 250], [970, 90], [728, 90]];
-        $ad_slot->desktop->postfix = ['1A', 2, 'infinite'];
-        break;
-      case 'SkinL':
-        $ad_slot->typeTag = 'SkinL';
-        $ad_slot->desktop = new stdClass();
-        $ad_slot->desktop->creativeSizes = [[2, 1], [312, 900]];
-        $ad_slot->desktop->postfix = [1];
-        break;
-      case 'SkinR':
-        $ad_slot->typeTag = 'SkinR';
-        $ad_slot->desktop = new stdClass();
-        $ad_slot->desktop->creativeSizes = [[2, 2], [312, 901]];
-        $ad_slot->desktop->postfix = [1];
-        break;
-      default:
-        throw new \Exception('Unknown advert widget $display_type: ' . $display_type);
-        break;
-    }
-
-    if ($post_fix_override) {
-      $ad_slot->postFixOverride = $post_fix_override;
-    }
-
-    return apply_filters('agreable_advert_slot_generator_filter', $ad_slot);
+    return $data;
   }
 }
