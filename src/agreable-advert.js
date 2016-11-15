@@ -1,7 +1,6 @@
 require('./stylus/main.styl')
 require('resources/assets/dct-dfp')
 
-require('es6-object-assign').polyfill()
 var $ = require('jquery')
 window.$ = $
 var dfpLoaded = false
