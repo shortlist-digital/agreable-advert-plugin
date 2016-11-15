@@ -4,7 +4,7 @@ use add_filter;
 use AgreableCategoryService;
 use AgreableAdvertPlugin\Services\AdvertSlotGenerator;
 
-class DfpZone {
+class AdvertsPageSetup {
 
   public function init() {
     add_action('wp_head', array($this, 'add_dfp_zone'));
