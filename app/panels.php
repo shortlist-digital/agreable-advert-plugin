@@ -2,21 +2,31 @@
 
 /** @var \Herbert\Framework\Panel $panel */
 
-$args = array(
-  /* (string) The title displayed on the options page. Required. */
-  'page_title' => 'Adverts Configuration',
-  'menu_title' => 'Adverts',
-  'menu_slug' => 'adverts-configuration',
-  'capability' => 'manage_options',
-  'position' => false,
-  'parent_slug' => '',
-  'icon_url' => 'dashicons-layout',
-  'redirect' => true,
-  'post_id' => 'adverts-configuration',
-  'autoload' => false,
-);
 
-acf_add_options_page($args);
+\add_action('plugins_loaded', function() {
+
+  $user = wp_get_current_user();
+  $user_roles = $user->roles;
+
+  if (in_array('administrator',$user_roles)) {
+    $args = array(
+      /* (string) The title displayed on the options page. Required. */
+      'page_title' => 'Adverts Configuration',
+      'menu_title' => 'Adverts',
+      'menu_slug' => 'adverts-configuration',
+      'capability' => 'manage_options',
+      'position' => false,
+      'parent_slug' => '',
+      'icon_url' => 'dashicons-layout',
+      'redirect' => true,
+      'post_id' => 'adverts-configuration',
+      'autoload' => false,
+    );
+
+    acf_add_options_page($args);
+  }
+});
+
 
 if( function_exists('acf_add_local_field_group') ):
 
